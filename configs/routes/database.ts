@@ -1,16 +1,28 @@
 import { Sequelize, DataTypes } from "sequelize";
 
+// ตั้งค่า environment variable
+const env = process.env
+
 // Connect sequelize to MySQL
-export const sequelize = new Sequelize("user_test", "root", "password", {
-  host: "127.0.0.1",
+export const sequelize = new Sequelize(env.TIDB_DB_NAME as string,env.TIDB_USER as string,env.TIDB_PASSWORD as string,{
+  host: env.TIDB_HOST,
+  port: Number(env.TIDB_PORT),
   dialect: "mysql",
   dialectOptions: {
     useUTC: false, // for reading from database
     dateStrings: true,
     typeCast: true,
-  },
-  timezone: "+07:00",
-});
+    ssl:
+        process.env?.TIDB_ENABLE_SSL === 'true'
+          ? {
+              minVersion: 'TLSv1.2',
+              rejectUnauthorized: true,
+              ca: undefined,
+            }
+          : null,
+    },
+    timezone: "+07:00",
+  });
 
 // สร้างตารางชื่อ Users
 const userModel = sequelize.define(

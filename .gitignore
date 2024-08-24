@@ -3,3 +3,9 @@
 # dependencies
 node_modules
 .nx
+.env
+
+# vs-config
+nx.json
+package.json
+pnpm-lock.yaml
