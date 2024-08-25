@@ -1,7 +1,9 @@
 {
   "main": "app.ts",
   "scripts": {
-    "start": "nodemon"
+    "start": "nodemon",
+    "build": "tsc",
+    "vercel build": "echo hello"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
