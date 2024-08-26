@@ -5,7 +5,7 @@ import { postRegister } from "../modules/register";
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", async (req:express.Request, res:express.Response) => {
   try {
     await sequelize.authenticate();
     console.log("Connection has been established successfully.");
@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
 });
 
 //Read the data from the user model in the database
-router.get("/users", async (req, res) => {
+router.get("/users", async (req:express.Request, res:express.Response) => {
   try {
     const user = await userModel.findAll({
       where: { deletedAt: null },
@@ -31,7 +31,7 @@ router.get("/users", async (req, res) => {
 });
 
 //Read the data by selecting id
-router.get("/user/:id/", async (req, res) => {
+router.get("/user/:id/", async (req:express.Request, res:express.Response) => {
   try {
     const userId = req.params.id;
     // แบบ Query แบบเก่า
@@ -52,7 +52,7 @@ router.get("/user/:id/", async (req, res) => {
 });
 
 //Update the data in the user model in the database
-router.put("/user/:id/", async (req, res) => {
+router.put("/user/:id/", async (req:express.Request, res:express.Response) => {
   try {
     const data = req.body;
     const userId = req.params.id;
@@ -80,12 +80,12 @@ router.put("/user/:id/", async (req, res) => {
 });
 
 // Create a new data in User model
-router.post("/user/register", async (req, res) => {
+router.post("/user/register", async (req:express.Request, res:express.Response) => {
   postRegister(req, res);
 });
 
 //Check if the user data is already in the database
-router.post("/user/login", async (req, res) => {
+router.post("/user/login", async (req:express.Request, res:express.Response) => {
   postLogin(req, res);
 });
 

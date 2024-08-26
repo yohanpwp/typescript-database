@@ -20,10 +20,10 @@ export const postRegister = async (req:any, res:any) => {
               res.status(201).json({user, message: 'User registered successfully'});
             }
           });
-        } catch (error:any) {
+        } catch (error) {
             res.status(400).json({ 
               message: 'Bad Request' ,
-              errors: error.message
+              errors: error instanceof Error ? error.message : 'Unknown error occurred'
             });
         }
       };

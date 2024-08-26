@@ -26,7 +26,7 @@ app.use(cors(corsOptions));
 
 // ลิงค์แรกเรียกใช้ไฟล์ index.html
 
-app.get('/', (req, res) => {
+app.get('/', (req:express.Request, res:express.Response) => {
   res.sendFile(path.join(__dirname,'/index.html'));
 });
 
