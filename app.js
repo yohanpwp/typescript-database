@@ -1,8 +1,8 @@
-import express from 'express';
-import path from 'path';
-import cors from 'cors';
-import morgan from 'morgan';
-import { initMySQL } from './configs/routes/mysql';
+const express = require('express');
+const path = require('path');
+const cors = require('cors');
+const morgan = require('morgan');
+const { initMySQL } = require('./configs/routes/mysql');
 require('dotenv').config();
 
 const app = express();

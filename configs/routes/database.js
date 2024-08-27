@@ -1,10 +1,10 @@
-import { Sequelize, DataTypes } from "sequelize";
+const { Sequelize, DataTypes } = require("sequelize");
 
 // ตั้งค่า environment variable
 const env = process.env
 
 // Connect sequelize to MySQL
-export const sequelize = new Sequelize(env.TIDB_DB_NAME,env.TIDB_USER,env.TIDB_PASSWORD,{
+const sequelize = new Sequelize(env.TIDB_DB_NAME,env.TIDB_USER,env.TIDB_PASSWORD,{
   host: env.TIDB_HOST,
   port: Number(env.TIDB_PORT),
   dialect: "mysql",
@@ -65,4 +65,7 @@ const userModel = sequelize.define(
   {}
 ); //optionsยังว่าง
 
-export default userModel;
+exports.sequelize = sequelize;
+
+exports.userModel = userModel;
+

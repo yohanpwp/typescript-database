@@ -1,7 +1,7 @@
-import bcrypt from "bcrypt";
-import userModel from "../routes/database";
+const bcrypt = require("bcrypt");
+const {userModel} = require("../routes/database");
 
-export const postRegister = async (req, res) => {
+const postRegister = async (req, res) => {
         try {
           let data = req.body;
           let username = data.username.toLowerCase();
@@ -27,3 +27,5 @@ export const postRegister = async (req, res) => {
             });
         }
       };
+
+exports.postRegister = postRegister;

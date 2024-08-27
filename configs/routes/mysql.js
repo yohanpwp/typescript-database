@@ -1,8 +1,8 @@
-import mysql from 'mysql2'
+const mysql = require('mysql2');
 
 // Create a new mySQL connection
 let db = null;
-export const initMySQL = async () => {  
+const initMySQL = async () => {  
     db = mysql.createConnection(
                 process.env.DATABASE_URL
                 // user : 'root',
@@ -13,3 +13,5 @@ export const initMySQL = async () => {
     //เชื่อมต่อฐานข้อมูลกับ node.js
     db.connect((err) => {  if (err) {throw err;  }  console.log("MySql Connected");});
     }
+
+exports.initMySQL = initMySQL;

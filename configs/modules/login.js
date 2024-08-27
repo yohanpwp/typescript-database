@@ -1,11 +1,11 @@
-import bcrypt from "bcrypt";
-import userModel from "../routes/database";
+const bcrypt = require("bcrypt");
+const {userModel} = require("../routes/database");
 
-export const postLogin = async(req, res) => {
+const postLogin = async(req, res) => {
     const reqUser = req.body;
 if (!reqUser) {res.status(200).json({message: 'Please check your input values'})};
 try {
-  const checkUser = await userModel.findOne<any>({ where: { username: reqUser.username.toLowerCase(), isActive: true } });
+  const checkUser = await userModel.findOne({ where: { username: reqUser.username.toLowerCase(), isActive: true } });
   if(checkUser) {
     bcrypt.compare(reqUser.password, checkUser.password ,(err, result) => {
       if(err) {
@@ -32,3 +32,5 @@ catch(err)  {
 }
 }
 };
+
+exports.postLogin = postLogin;

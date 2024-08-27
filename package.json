@@ -1,5 +1,5 @@
 {
-  "main": "app.ts",
+  "main": "app.js",
   "scripts": {
     "start": "nodemon",
     "build": "tsc",

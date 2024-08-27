@@ -1,7 +1,7 @@
-import express from "express";
-import userModel, { sequelize } from "./database";
-import { postLogin } from "../modules/login";
-import { postRegister } from "../modules/register";
+const express = require("express");
+const { userModel ,sequelize } = require("./database");
+const { postLogin } = require("../modules/login");
+const { postRegister } = require("../modules/register");
 
 const router = express.Router();
 
