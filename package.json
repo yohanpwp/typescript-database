@@ -1,8 +1,9 @@
 {
   "main": "app.js",
+  "version": "1.0.1",
   "scripts": {
     "start": "nodemon",
-    "build": "tsc",
+    "build": "",
     "vercel build": "echo hello"
   },
   "dependencies": {

@@ -37,3 +37,5 @@ app.use('/api', require('./configs/routes/routes'))
 app.listen(process.env.PORT || 3000,async () => {
   await initMySQL();  // เรียกใช้ฟังก์ชั่นในไฟล์ database เพื่อเชื่อต่อฐานข้อมูล MySQL
   console.log('App listening on Port 3000');});
+
+  module.exports = app
