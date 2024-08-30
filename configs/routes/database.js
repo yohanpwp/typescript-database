@@ -9,7 +9,7 @@ const sequelize = new Sequelize(env.TIDB_DB_NAME,env.TIDB_USER,env.TIDB_PASSWORD
   port: Number(env.TIDB_PORT),
   dialect: "mysql",
   dialectOptions: {
-    useUTC: false, // for reading from database
+    // useUTC: false, // for reading from database
     dateStrings: true,
     typeCast: true,
     ssl:
