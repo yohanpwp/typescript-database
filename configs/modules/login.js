@@ -15,7 +15,7 @@ try {
       if(result) {
         res.status(200).json({message: 'User logged in successfully'}) 
       } else {
-        res.status(401).json({ message: 'Invalid username or password' })
+        res.status(401).json({message: 'Invalid username or password' })
       }
     }) 
   }

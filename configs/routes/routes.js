@@ -2,6 +2,8 @@ const express = require("express");
 const { userModel ,sequelize } = require("./database");
 const { postLogin } = require("../modules/login");
 const { postRegister } = require("../modules/register");
+const { postUserData } = require("../modules/ีusers");
+const { postQrHistory,getQrHistory } = require("../modules/saveQR");
 
 const router = express.Router();
 
@@ -89,5 +91,14 @@ router.post("/user/login", async (req, res) => {
   postLogin(req, res);
 });
 
+//Read the data by user 
+router.post('/user/:username/', async(req, res) => {postUserData(req,res);});
+
+
+//Keep a history that user has generated QR codes
+router.post("/user/payment/history", async (req, res) => {postQrHistory(req, res);});
+
+//Read a history that user has generated QR codes
+router.post("/user/payment/history/=read", async (req, res) => {getQrHistory(req, res);});
 
 module.exports = router;

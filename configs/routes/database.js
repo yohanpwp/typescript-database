@@ -3,7 +3,7 @@ const { Sequelize, DataTypes } = require("sequelize");
 // ตั้งค่า environment variable
 const env = process.env
 
-// Connect sequelize to MySQL
+// Connect sequelize to MySQL (Production)
 const sequelize = new Sequelize(env.TIDB_DB_NAME,env.TIDB_USER,env.TIDB_PASSWORD,{
   host: env.TIDB_HOST,
   port: Number(env.TIDB_PORT),
@@ -23,6 +23,15 @@ const sequelize = new Sequelize(env.TIDB_DB_NAME,env.TIDB_USER,env.TIDB_PASSWORD
     },
     timezone: "+07:00",
   });
+
+// const sequelize = new Sequelize('user_test', 'root','password',{
+//   host: '127.0.0.1' ,
+//   port: 3306,
+//   dialect:'mysql',
+//   dialectOptions: {
+//     timezone: '+07:00',
+//   }
+// })
 
 // สร้างตารางชื่อ Users
 const userModel = sequelize.define(
@@ -65,7 +74,28 @@ const userModel = sequelize.define(
   {}
 ); //optionsยังว่าง
 
+// สร้างตารางชื่อ QRHistory เก็บประวัติการสร้าง Qr code ของแต่ละ user ไว้
+const qrHistoryModel = sequelize.define('QrHistoryModels',
+  {
+    qrCode: {
+      type: DataTypes.STRING(5000),
+      allowNull: false,
+    },
+    createdBy: { 
+      type: DataTypes.STRING,
+      allowNull: false,
+   },
+   amounts: {
+    type: DataTypes.STRING,
+    allowNull: false,
+   }
+  },
+  {}
+)
+
 exports.sequelize = sequelize;
 
 exports.userModel = userModel;
+
+exports.qrHistoryModel = qrHistoryModel;
 
