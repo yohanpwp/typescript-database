@@ -6,7 +6,7 @@ const postUserData = async (req, res) => {
   if (!name) return res.status(402);
   try {
     const checkUser = await userModel.findOne({
-      where: { username: name, isActive: true },
+      where: { username: name.toLowerCase(), isActive: true },
     });
     if (!checkUser) {
       return res.status(404).json({ message: "User not found" });

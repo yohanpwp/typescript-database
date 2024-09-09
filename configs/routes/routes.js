@@ -4,6 +4,7 @@ const { postLogin } = require("../modules/login");
 const { postRegister } = require("../modules/register");
 const { postUserData } = require("../modules/ีusers");
 const { postQrHistory,getQrHistory } = require("../modules/saveQR");
+const { verifyToken } = require("../modules/jwt");
 
 const router = express.Router();
 
@@ -22,6 +23,8 @@ router.get("/", async (req, res) => {
 //Read the data from the user model in the database
 router.get("/users", async (req, res) => {
   try {
+    const authToken = await verifyToken(req);
+    if (!authToken) return res.status(401).json({ message: "Unauthorized" });
     const user = await userModel.findAll({
       where: { deletedAt: null },
       attributes: { exclude: ["deletedAt", "deletedBy"] },
@@ -35,6 +38,8 @@ router.get("/users", async (req, res) => {
 //Read the data by selecting id
 router.get("/user/:id/", async (req, res) => {
   try {
+    const authToken = await verifyToken(req);
+    if (!authToken) return res.status(401).json({ message: "Unauthorized" });
     const userId = req.params.id;
     // แบบ Query แบบเก่า
     // const [result] = await conn.query('SELECT users.*, addresses.address1 FROM users LEFT JOIN addresses on users.id = addresses.userId WHERE users.id = ?', userId)
@@ -99,6 +104,6 @@ router.post('/user/:username/', async(req, res) => {postUserData(req,res);});
 router.post("/user/payment/history", async (req, res) => {postQrHistory(req, res);});
 
 //Read a history that user has generated QR codes
-router.post("/user/payment/history/=read", async (req, res) => {getQrHistory(req, res);});
+router.post("/user/payment/history/read", async (req, res) => {getQrHistory(req, res);});
 
 module.exports = router;

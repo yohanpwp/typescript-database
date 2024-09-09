@@ -3,6 +3,7 @@ const path = require('path');
 const cors = require('cors');
 const morgan = require('morgan');
 const { initMySQL } = require('./configs/routes/mysql');
+const { initMsSQL } = require('./configs/routes/mssql');
 require('dotenv').config();
 
 const app = express();
@@ -35,7 +36,8 @@ app.get('/', (req, res) => {
 app.use('/api', require('./configs/routes/routes'))
 // ใช้งาน port 3000
 app.listen(process.env.PORT || 3000,async () => {
-  await initMySQL();  // เรียกใช้ฟังก์ชั่นในไฟล์ database เพื่อเชื่อต่อฐานข้อมูล MySQL
+  // await initMySQL();  // เรียกใช้ฟังก์ชั่นในไฟล์ database เพื่อเชื่อต่อฐานข้อมูล MySQL
+  await initMsSQL();  // เรียกใช้ฟังก์ชั่นในไฟล์ database เพื่อเชื่อต่อฐานข้อมูล Microsoft SQL Server
   console.log('App listening on Port 3000');});
 
   module.exports = app

@@ -22,12 +22,12 @@ const postQrHistory = async (req, res) => {
 
 const getQrHistory = async (req, res) => {
   const username = req.body.username;
-  // if (!username) return res.status(404).json({ message: 'Page not found' });
+  if (!username) return res.status(404).json({ message: 'Page not found' });
   try {
     const qrHistory = await qrHistoryModel.findAll({
-      where: { createdBy: username },
+      where: { createdBy: username.toLowerCase() },
       order: [['createdAt', 'DESC']],
-      attributes: { exclude: ['createdBy', 'updatedAt'] },
+      attributes: { exclude: ['updatedAt'] },
     });
     if(qrHistory==false) { return res.status(404).json({ message: 'User not found' });}
     else {
