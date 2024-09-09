@@ -3,25 +3,24 @@ const sql = require('mssql')
 const env = process.env;
 
 const initMsSQL = async () => {
-    const sqlConfig = {
-        user: env.MS_USER,
-        password: env.MS_PASSWORD,
-        database: env.MS_NAME,
-        server: env.MS_HOST,
-        port : Number(env.MS_PORT),
-        pool: {
-          max: 10,
-          min: 0,
-          idleTimeoutMillis: 30000
-        },
-        options: {
-          encrypt: false, 
-          trustServerCertificate: true // change to true for local dev / self-signed certs
-        }
-      }
     try {
         // make sure that any items are correctly URL encoded in the connection string
-        await sql.connect(sqlConfig)
+        await sql.connect({
+          user: env.MS_USER,
+          password: env.MS_PASSWORD,
+          database: env.MS_NAME,
+          server: env.MS_HOST,
+          port : Number(env.MS_PORT),
+          pool: {
+            max: 10,
+            min: 0,
+            idleTimeoutMillis: 30000
+          },
+          options: {
+            encrypt: false, 
+            trustServerCertificate: true // change to true for local dev / self-signed certs
+          }
+        })
         console.log("Sql Server Connected");
     } catch (err) {
         console.error('Error connecting to SQL Server', err)
