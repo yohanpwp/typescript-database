@@ -5,6 +5,7 @@ const { postRegister } = require("../modules/register");
 const { postUserData } = require("../modules/ีusers");
 const { postQrHistory,getQrHistory } = require("../modules/saveQR");
 const { verifyToken } = require("../modules/jwt");
+const { readQrResponse } = require("../modules/checkQrResponse");
 
 const router = express.Router();
 
@@ -105,5 +106,8 @@ router.post("/user/payment/history", async (req, res) => {postQrHistory(req, res
 
 //Read a history that user has generated QR codes
 router.post("/user/payment/history/read", async (req, res) => {getQrHistory(req, res);});
+
+//Read a history that user has generated QR codes and get a status paid message
+router.post("/user/payment/history/check", async (req, res) => {readQrResponse(req, res);});
 
 module.exports = router;

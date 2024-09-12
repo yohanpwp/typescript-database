@@ -1,17 +1,28 @@
-const {qrHistoryModel} = require("../routes/database");
-const { userModel } = require("../routes/database");
+const { qrHistoryModel} = require("../routes/database");
+const { checkQrResponse } = require("./checkQrResponse");
 
 // ฟังก์ชั่นสำหรับบันทึก QR code ที่สแกน
 
 const postQrHistory = async (req, res) => {
   const data = req.body;
+  console.log(data);
   if (!data.username && !data.qrCode && !data.amounts) return res.status(200).json({ message: 'Please check your input values' });
 
   try {
     const qrHistory = await qrHistoryModel.create({
+      qrType: data.body.qrBody.qrType,
+      ppType : data.body.qrBody.ppType,
+      ppId : data.body.qrBody.ppId,
       createdBy: data.username,
-      qrCode: data.qrCode,
+      qrCode: data.body.image,
       amounts: data.amounts,
+      ref1: data.body.qrBody.ref1,
+      ref2: data.body.qrBody.ref2,
+      ref3: data.body.qrBody.ref3,
+      token: data.token,
+      customer: data.customerName,
+      remark: data.remark,
+      status: 'Created',
     });
     res.status(201).json({qrHistory,message: 'Your data is saved successfully'});
   } catch (error) {
@@ -31,6 +42,7 @@ const getQrHistory = async (req, res) => {
     });
     if(qrHistory==false) { return res.status(404).json({ message: 'User not found' });}
     else {
+      await checkQrResponse()
       res.status(200).json(qrHistory);
       return qrHistory;
     }
