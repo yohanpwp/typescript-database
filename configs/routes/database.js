@@ -148,6 +148,7 @@ const qrHistoryModel = sequelize.define(
   {}
 );
 
+// สร้างตารางชื่อ scbResponse เก็บข้อมูลการจ่ายหลังจากสแกน QR ไว้
 const scbResponse = sequelize.define(
   "scbResponse",
   {
@@ -227,6 +228,11 @@ const scbResponse = sequelize.define(
   {}
 );
 
+const qrTable = async () => { 
+  const data = await sequelize.query("SELECT * FROM QrHistoryModels LEFT JOIN scbResponse",{type: sequelize.QueryTypes.SELECT});
+  return data;  // คืนค่าข้อมูลจากฐานข้อมูล ที่ตรงกับ ref1 ของ QrHistoryModels และ scbResponse ในรูปแบบ array ของ object ที่มีข้อมูลทั้งหมด
+}
+
 exports.sequelize = sequelize;
 
 exports.userModel = userModel;
@@ -234,3 +240,5 @@ exports.userModel = userModel;
 exports.qrHistoryModel = qrHistoryModel;
 
 exports.scbResponse = scbResponse;
+
+exports.qrTable = qrTable;

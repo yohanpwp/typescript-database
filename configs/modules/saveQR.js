@@ -1,11 +1,10 @@
-const { qrHistoryModel} = require("../routes/database");
+const { qrHistoryModel,scbResponse} = require("../routes/database");
 const { checkQrResponse } = require("./checkQrResponse");
 
 // ฟังก์ชั่นสำหรับบันทึก QR code ที่สแกน
 
 const postQrHistory = async (req, res) => {
   const data = req.body;
-  console.log(data);
   if (!data.username && !data.qrCode && !data.amounts) return res.status(200).json({ message: 'Please check your input values' });
 
   try {
@@ -35,14 +34,22 @@ const getQrHistory = async (req, res) => {
   const username = req.body.username;
   if (!username) return res.status(404).json({ message: 'Page not found' });
   try {
+    // Assuming that qrHistoryModel has a foreign key to scbResponseModel
+    qrHistoryModel.belongsTo(scbResponse,{targetKey:'billPaymentRef1',foreignKey: 'ref1'});
+    
     const qrHistory = await qrHistoryModel.findAll({
       where: { createdBy: username.toLowerCase() },
       order: [['createdAt', 'DESC']],
       attributes: { exclude: ['updatedAt'] },
+      include: [
+        {model: scbResponse,
+        }
+      ]
     });
     if(qrHistory==false) { return res.status(404).json({ message: 'User not found' });}
     else {
       await checkQrResponse()
+      
       res.status(200).json(qrHistory);
       return qrHistory;
     }
