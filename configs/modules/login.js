@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 
 const { userModel } = require("../routes/database");
-const { signToken } = require("./jwt");
+const { signToken,generatedToken } = require("./jwt");
 
 const postLogin = async (req, res) => {
   const reqUser = req.body;
@@ -13,6 +13,7 @@ const postLogin = async (req, res) => {
   try {
     const checkUser = await userModel.findOne({
       where: { username: reqUser.username.toLowerCase(), isActive: true },
+      attributes: { exclude: ["deletedAt", "deletedBy"] },
     });
     if (checkUser) {
       bcrypt.compare(reqUser.password, checkUser.password, (err, result) => {
@@ -21,9 +22,10 @@ const postLogin = async (req, res) => {
           return;
         }
         if (result) {
+          const sendToken = generatedToken(req,checkUser.dataValues);
           res.status(200).json({
             message: "User logged in successfully",
-            token: token,
+            token: sendToken,
           });
         } else {
           res.status(401).json({ message: "Invalid username or password" });

@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
   try {
     await sequelize.authenticate();
     console.log("Connection has been established successfully.");
-    sequelize.sync({});
+    sequelize.sync();
     return res.status(200).json({ message: "Hello, World!" });
   } catch (error) {
     console.error("Unable to connect to the database:", error);
@@ -21,14 +21,29 @@ router.get("/", async (req, res) => {
   }
 });
 
+//Read the own user data from the user model in the database
+router.get("/user", async (req, res) => {
+  try {
+    const userData = await verifyToken(req);
+    if (!userData) return res.status(401).json({ message: "Unauthorized" });
+    const user = await userModel.findOne({
+      where: { username: userData.username, deletedAt: null },
+      attributes: { exclude: ["deletedAt", "deletedBy","password","isAvtive"] },
+    });
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
 //Read the data from the user model in the database
 router.get("/users", async (req, res) => {
   try {
-    const authToken = await verifyToken(req);
-    if (!authToken) return res.status(401).json({ message: "Unauthorized" });
+    // const authToken = await verifyToken(req);
+    // if (!authToken) return res.status(401).json({ message: "Unauthorized" });
     const user = await userModel.findAll({
       where: { deletedAt: null },
-      attributes: { exclude: ["deletedAt", "deletedBy"] },
+      attributes: { exclude: ["deletedAt", "deletedBy","password","isAvtive"] },
     });
     res.status(200).json(user);
   } catch (err) {
@@ -95,6 +110,20 @@ router.post("/user/register", async (req, res) => {
 //Check if the user data is already in the database
 router.post("/user/login", async (req, res) => {
   postLogin(req, res);
+});
+
+router.post("/user", async (req, res) => {
+  try {
+    const userData = await verifyToken(req);
+    if (!userData) return res.status(401).json({ message: "Unauthorized" });
+    const user = await userModel.findOne({
+      where: { username: userData.username, deletedAt: null },
+      attributes: { exclude: ["deletedAt", "deletedBy","password","isAvtive"] },
+    });
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 });
 
 //Read the data by user 

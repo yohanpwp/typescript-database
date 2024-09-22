@@ -70,7 +70,6 @@ const userModel = sequelize.define(
     },
     isActive: {
       type: DataTypes.BOOLEAN,
-      defaultValue: true,
     },
     createdBy: {
       type: DataTypes.STRING,
