@@ -27,6 +27,7 @@ const postQrHistory = async (req, res) => {
         status: 'Created',
       });
       res.status(201).json({qrHistory,message: 'Your data is saved successfully'});
+      return qrHistory;  
     } catch (error) {
       console.error('Error creating QR history:', error);
       res.status(500).json({ message: 'Internal Server Error' });
