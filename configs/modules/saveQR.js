@@ -44,7 +44,10 @@ const getQrHistory = async (req, res) => {
     qrHistoryModel.belongsTo(scbResponse,{targetKey:'billPaymentRef1',foreignKey: 'ref1'});
     
     const qrHistory = await qrHistoryModel.findAll({
-      where: { createdBy: username.toLowerCase() },
+      where: { 
+        createdBy: username.toLowerCase(),
+        deletedAt: null
+       },
       order: [['createdAt', 'DESC']],
       attributes: { exclude: ['updatedAt'] },
       include: [

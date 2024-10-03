@@ -55,7 +55,6 @@ const userModel = sequelize.define(
     username: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
     },
     password: {
       type: DataTypes.STRING,
@@ -111,6 +110,9 @@ const qrHistoryModel = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    updatedBy: {
+      type: DataTypes.STRING,
+    },
     amounts: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -142,6 +144,12 @@ const qrHistoryModel = sequelize.define(
     status: {
       type: DataTypes.STRING,
       allowNull: true,
+    },
+    deletedAt: {
+      type: DataTypes.DATE,
+    },
+    deletedBy: {
+      type: DataTypes.STRING,
     },
   },
   {}
